@@ -1,0 +1,125 @@
+<?php 
+
+class Database extends PDO{
+
+	public $config;
+
+	function __construct($config){
+
+		try {
+			parent::__construct($config['db_type'].':host='.$config['db_host'].';dbname='.$config['db_name'],$config['db_username'],$config['db_password']);
+			$this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		} catch(PDOException $e) {				
+			die("ERROR: ". $e->getMessage());
+		}		
+	}
+	
+	public function query($sql, $fetchmode = '') {
+
+		//set PDO fetchmode and execute $sql query
+		try {
+			$stmt = $this->prepare($sql);
+
+			//set fetchmode
+			if ($fetchmod !== '') {
+				switch ($fetchmode) {
+					case ('names'):		$stmt->setFetchMode(PDO::FETCH_ASSOC); break;
+					case ('numbers'):	$stmt->setFetchMode(PDO::FETCH_NUM); break;
+					default:		$stmt->setFetchMode(PDO::FETCH_BOTH);
+				}
+			}
+
+			
+			$stmt->execute();
+			return $stmt;
+		} catch(Exception $e) {
+			die("ERROR: ". $e->getMessage());
+		}
+
+		foreach ($stmt as $row) {
+			echo "<pre>";
+			print_r($row);
+			echo "</pre>";
+		}
+
+	}
+}
+
+
+/* //this example sets the fetch mode inside the Database class
+$db = new Database($config);
+sql = 'SELECT * FROM staff_profiles';
+$results = $db->results($sql);
+
+foreach ($results as $row) {
+	echo "<pre>";
+	print_r($row);
+	echo "</pre>";
+}
+*/
+
+/*
+$db = new Database($config);	
+$sql = 'SELECT * FROM staff_profiles';
+$result = $db->prepare($sql);
+$result->setFetchMode(PDO::FETCH_ASSOC);
+$result->execute();
+
+foreach ($result as $row){
+	echo "<pre>";
+	print_r($row);
+	echo "</pre>";
+}
+*/
+
+//Reference: http://php.net/manual/en/pdostatement.fetch.php
+
+/* //returns an array indexed by both column name and 0-indexed column number as returned in your result set 
+$db = new Database($config);
+$test = 'SELECT * FROM staff_profiles';
+//var_dump($db->query($test)); //debugging
+foreach ($db->query($test) as $row) {
+	echo "<pre>";
+	print_r($row);
+	echo "</pre>";
+}
+*/
+
+/* //uses FETCH_BOTH, which is the default and same as above -- returns an array indexed by column number as returned in your result set, starting at column 0
+$db = new Database($config);
+$test = 'SELECT * FROM staff_profiles';
+$stmt = $db->query($test);
+$result = $stmt->setFetchMode(PDO::FETCH_BOTH);
+while ($row = $stmt->fetch()) {
+	echo "<pre>";
+	print_r($row);
+	echo "</pre>";
+}
+*/
+
+
+/* //returns an array indexed by column number as returned in your result set, starting at column 0
+$db = new Database($config);
+$test = 'SELECT * FROM staff_profiles';
+$stmt = $db->query($test);
+$result = $stmt->setFetchMode(PDO::FETCH_NUM);
+while ($row = $stmt->fetch()) {
+	echo "<pre>";
+	print_r($row);
+	echo "</pre>";
+}
+*/
+
+/* //returns an array indexed by column name as returned in your result set
+$db = new Database($config);
+$test = 'SELECT * FROM staff_profiles';
+$stmt = $db->query($test);
+$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+while ($row = $stmt->fetch()) {
+	echo "<pre>";
+	print_r($row);
+	echo "</pre>";
+}
+*/
+
+?>

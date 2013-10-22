@@ -1,0 +1,91 @@
+<?php
+
+//index.php
+
+require_once('../config/config.php');
+require_once('../library/autoloader.php');
+
+//temporarily set $_POST
+$_POST['fruit'] = 'apple';
+$_POST['vegitable'] = 'carrot';
+
+//temporarily set
+$authenticated = TRUE;
+
+
+$url = $_GET['url'];
+
+function callHook() {
+
+/*
+
+Let me explain the above code briefly. The setReporting() function helps us display errors only when the DEVELOPMENT_ENVIRONMENT is true. The next move is to remove global variables and magic quotes. Another function that we make use of is __autoload which helps us load our classes automagically. Finally, we execute the callHook() function which does the main processing.
+
+First let me explain how each of our URLs will look – yoursite.com/controllerName/actionName/queryString
+
+So callHook() basically takes the URL which we have received from index.php and separates it out as $controller, $action and the remaining as $queryString. $model is the singular version of $controller.
+
+e.g. if our URL is todo.com/items/view/1/first-item, then
+Controller is items
+Model is item (corresponding mysql table)
+View is delete
+Action is delete
+Query String is an array (1,first-item)
+
+After the separation is done, it creates a new object of the class $controller.”Controller” and calls the method $action of the class.
+
+Now let us create a few classes first namely our base Controller class which will be used as the base class for all our controllers, our Model class which will be used as base class for all our models.
+
+*/
+
+    global $url;
+ 
+    $urlArray = array();
+    $urlArray = explode("/",$url);
+ 
+    //get controller
+    $controller = $urlArray[0];
+    array_shift($urlArray);
+
+    //get action
+    $action = $urlArray[0];
+    array_shift($urlArray);
+
+    $queryString = $urlArray;
+ 
+    $controllerName = $controller;
+    $controller = ucwords($controller);
+
+    //$model is the singular version of $controller.
+    $model = rtrim($controller, 's');
+    $controller .= 'Controller';
+    $dispatch = new $controller($model,$controllerName,$action);
+ 
+    if ((int)method_exists($controller, $action)) {
+        call_user_func_array(array($dispatch,$action),$queryString);
+    } else {
+        /* Error Generation Code Here */
+    }
+}
+
+
+
+
+if ($authenticated) {
+	//do stuff
+	try {
+		$db = new Database($config);
+		print_r($_GET); //DEBUGGING
+		$controller = new Controller;
+		$controller->doUserAction($db);
+
+	} catch (Exception $Exception) {
+		echo 'Oops! ' . $Exception->getMessage();
+	}
+} else {
+	echo "Please login:";
+	echo "Username:<br />";
+	echo "Password:<br />";
+	echo "Don't have a login? Create an account.";
+}
+

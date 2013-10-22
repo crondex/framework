@@ -1,0 +1,43 @@
+<?php
+
+//Controller.php
+
+class Controller {
+
+	//public $db;
+	//public $postVar;
+	public $cleanedPost;
+
+	function cleanPost($postVar) {
+		$val = $_POST[$postVar];
+		if (get_magic_quotes_gpc()) {
+			$val = stripslashes($val);
+		}
+		return $val;
+	}
+
+	function doUserAction($db) {
+
+		if (isset($_GET['url'])) {
+
+			//Class member access on instantiation is available in PHP 5.4
+			//(new Presenter())->$_GET['action']();
+
+			$presenter = new Presenter();
+			$presenter->$_GET['url']($db);
+
+		} elseif (!empty($_POST)) {
+
+			//clean all $_POST values and create $cleanedPost array
+			foreach ($_POST as $key => $val) {
+				$cleanedPost["$key"] = $this->cleanPost($key);
+
+				}
+
+			echo "<pre>";		//debugging
+			print_r($cleanedPost);  //debugging
+			echo "</pre>";		//debugging
+		}
+	}
+
+}

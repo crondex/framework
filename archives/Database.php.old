@@ -1,0 +1,52 @@
+<?php 
+
+class Database extends PDO{
+
+	public $config;
+	public $sqlErrorCode;
+
+	function __construct($config){
+
+		try {
+			parent::__construct($config['db_type'].':host='.$config['db_host'].';dbname='.$config['db_name'],$config['db_username'],$config['db_password']);
+			$this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		} catch(PDOException $e) {				
+			die("ERROR: ". $e->getMessage());
+		}		
+	}
+	
+	public function query($sql, $params, $fetchmode = '') {
+
+		//set PDO fetchmode and execute $sql query
+		try {
+			$stmt = $this->prepare($sql);
+
+			//set fetchmode
+			if ($fetchmode !== '') {
+				switch ($fetchmode) {
+					case ('names'):		$stmt->setFetchMode(PDO::FETCH_ASSOC); break;
+					case ('numbers'):	$stmt->setFetchMode(PDO::FETCH_NUM); break;
+					default:		$stmt->setFetchMode(PDO::FETCH_BOTH);
+				}
+			}
+
+			$stmt->execute($params);	
+			return $stmt;
+
+		} catch(Exception $e) {
+			$sqlError = $stmt->errorInfo();
+			$this->sqlErrorCode = $sqlError[1];
+		}
+
+		foreach ($stmt as $row) {
+			echo "<pre>";
+			print_r($row);
+			echo "</pre>";
+		}
+
+	}
+}
+
+
+?>

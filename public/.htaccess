@@ -1,0 +1,28 @@
+<IfModule mod_rewrite.c>
+
+RewriteEngine On
+
+#set the base for urls
+RewriteBase /test/mysql/staff_profiles/
+  
+### if the file does not exist
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+### and the URI does not end with a /
+RewriteCond %{REQUEST_URI} !(.*)/$
+
+###if the above condition was met (and there is not a trailing slash)
+###skil the next RewriteRule
+RewriteRule .? - [S=1]
+
+###Assign URI values to $url
+###QSA will preserve the existing query string
+RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
+
+### redirect and add the slash. 
+RewriteRule ^(.*)$ $1/ [L,R=301]
+
+#Reference: http://goo.gl/Iq3ei2
+
+</IfModule>
