@@ -31,12 +31,21 @@ if ($authenticated) {
         $action = $parseUrl->getAction();
         $view = $parseUrl->getView();
         $queryString = $parseUrl->getQueryString();
-        $dispatch = new $controller($model,$config,$controller,$action,$view);
+
+        //instantiate model
+        $modelObj = new $model($config);
+
+        //instantiate view (template)
+        $viewObj = new View($view,$action);
+
+        //instantiate dispatch object (which is an instance of $controller (which extends Controller))
+        //also inject model and view objects
+        $dispatch = new $controller($modelObj,$model,$viewObj);
 	
         //figure out what the heck this does and then try using it
         if ((int)method_exists($controller, $action)) {
 
-            //this calls the method $action of the object $dispatch 
+            //this calls the method $action of the object $dispatch
             //and passes it the argument $queryString
             //call_user_func_array(array($dispatch,$action),$queryString);
 

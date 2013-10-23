@@ -5,23 +5,16 @@
 	
 class Controller
 {
-    protected $_model;
-    protected $_controller;
-    protected $_action;
+    protected $model;
     protected $_view;
 
-    public function __construct($model,$config,$controller,$action,$view)
+    public function __construct(Model $modelObj,$model, View $viewObj)
     {
-        $this->_model = $model;
-        $this->_controller = $controller;
-        $this->_action = $action;
-        $this->_view = $view;
+        //inject model object (using the $mode variable)
+	$this->$model = $modelObj;
 
-	//instantiate model
-	$this->$model = new $this->_model($config);
-
-        //instantiate view (template)
-	$this->_view = new View($view,$action);
+        //inject view object
+	$this->_view = $viewObj;
     }
 
     //this is called by the sub-controllers
@@ -36,4 +29,3 @@ class Controller
         $this->_view->render();
     }
 }
-
