@@ -1,5 +1,5 @@
 <?php
-class Model extends Database
+class Model extends Database implements ModelInterface
 {
     protected $_class;
     protected $_table;

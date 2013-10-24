@@ -8,9 +8,9 @@ class Controller
     protected $model;
     protected $_view;
 
-    public function __construct(Model $modelObj,$model, View $viewObj)
+    public function __construct(ModelInterface $modelObj,$model, ViewInterface $viewObj)
     {
-        //inject model object (using the $mode variable)
+        //inject model object (using the $model variable)
 	$this->$model = $modelObj;
 
         //inject view object

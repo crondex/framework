@@ -2,7 +2,7 @@
 
 //View.php (this is the main view/template)
 
-class View
+class View implements ViewInterface
 {
     protected $_view;
     protected $_action;
@@ -32,8 +32,6 @@ class View
         } else {
             echo "404 will be included here.";
 	}
-
-        //include (ROOT . DS . 'app' . DS . 'views' . DS . $this->_view . DS . $this->_action . '.php');      
     }
 
     public function __destruct()
