@@ -36,16 +36,26 @@ try {
     //instantiate view (template)
     $viewObj = new View($view,$action);
 
-    //instantiate dispatch object (which is an instance of $controller (which extends Controller))
-    //also inject model and view objects
+   /**
+    * This instantiates the dispatch object (which is an instance
+    * of $controller (the subcontroller), which extends the
+    * Controller (the main/front controller) also inject model
+    * and view objects
+    */
     $dispatch = new $controller($modelObj,$model,$viewObj);
 	
     //figure out what the heck this does and then try using it
     if ((int)method_exists($controller, $action)) {
 
-        //this calls the method $action of the object $dispatch
-        //and passes it the argument $queryString
-        //call_user_func_array(array($dispatch,$action),$queryString);
+       /**
+        * This calls the method $action of the object
+        * $dispatch (the subcontroller) and passes it the
+        * argument $queryString
+        * 
+        * Uncomment next line if I decide to use this instead of echo
+        * call_user_func_array(array($dispatch,$action),$queryString);
+        *
+        */
 
         //I think this does the same thing as call_user_func_array
         echo $dispatch->$action($queryString);

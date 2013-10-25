@@ -17,7 +17,12 @@ class Controller
 	$this->_view = $viewObj;
     }
 
-    //this is called by the sub-controllers
+   /**
+    * Here is the workflow:
+    * Input comes in from subview (from the page) > subcontroller (via set()) > Controller (via set()) > View,
+    * and the View then extracts these variables and makes them available to the subview to
+    * display (which is included as view_file.php).
+    */
     public function set($name,$value)
     {
         $this->_view->set($name,$value);
@@ -26,6 +31,9 @@ class Controller
     public function __destruct()
     {
         echo '<br />Controller has been destructed<br />';
+        
+        //this extracts the variables set by 'set()' above, and then
+        //includes the the subview (view_file.php).
         $this->_view->render();
     }
 }

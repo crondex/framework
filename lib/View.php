@@ -30,6 +30,7 @@ class View implements ViewInterface
         if (file_exists($view_file)) {
             include ($view_file);
         } else {
+            // I'm not sure this should go here.
             echo "404 will be included here.";
 	}
     }
