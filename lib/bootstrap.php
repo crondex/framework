@@ -18,7 +18,7 @@ try {
     echo "\$url pre parse: $url";
 
     $parseUrl = new ParseUrl($url);
-    $db = new Database($config);
+//    $db = new Database($config);  //This is not needed, as model extends this class and is instantiated below.
 
     echo '<br />controller: ' . $parseUrl->getController();
     echo '<br />action: ' . $parseUrl->getAction();
@@ -43,8 +43,8 @@ try {
     * and view objects
     */
     $dispatch = new $controller($modelObj,$model,$viewObj);
-	
-    //figure out what the heck this does and then try using it
+
+    //Checks to see if method $action (in class $controller) exists
     if ((int)method_exists($controller, $action)) {
 
        /**
@@ -61,11 +61,14 @@ try {
         echo $dispatch->$action($queryString);
 
     } else {
-        /* Error Generation Code Here */
+        throw new Exception('404');	
     } 
 
 } catch (Exception $Exception) {
 
-    echo 'Oops! ' . $Exception->getMessage();
+    if ($Exception->getMessage() === '404') {
+        header('Location: /404/');
+    } else {
+    }
 }
 

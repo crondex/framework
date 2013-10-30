@@ -9,7 +9,6 @@ $paths = array(get_include_path(), '../app/controllers', '../app/models', '../ap
 
 //set include paths
 set_include_path(implode(PATH_SEPARATOR, $paths));
-//print_r($paths); //debugging
  
 // Next, register it with PHP.
 spl_autoload_register('MyAutoload');
