@@ -3,11 +3,8 @@
 //bootstrap.php
 
 //temporarily set $_POST
-$_POST['fruit'] = 'kiwi';
-$_POST['vegitable'] = 'carrot';
-
-//temporarily set
-$authenticated = TRUE;
+//$_POST['fruit'] = 'kiwi';
+//$_POST['vegitable'] = 'carrot';
 
 setReporting();
 removeMagicQuotes();
@@ -67,8 +64,7 @@ try {
 } catch (Exception $Exception) {
 
     if ($Exception->getMessage() === '404') {
-        header('Location: /404/');
-    } else {
+        throw404();
     }
 }
 

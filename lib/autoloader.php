@@ -1,8 +1,10 @@
 <?php
 
+/**
 function MyAutoload($className)
 {
-    require_once($className . '.php');
+    $filename = $className . '.php';
+    require_once($filename);
 }
 
 $paths = array(get_include_path(), '../app/controllers', '../app/models', '../app/views');
@@ -16,4 +18,35 @@ spl_autoload_register('MyAutoload');
 //test autoload (this clas hasn't explicitly been required or included)
 $var = new MyClass();
 $var->test();
+*/
 
+function requiredFiles($className)
+{
+    $paths = array('../lib/', '../app/controllers/', '../app/models/', '../app/views/');
+    $classFound = false;
+
+    //find files and require them
+    foreach ($paths as $path) {
+        $filename = $path . $className . '.php';
+        if (file_exists($filename)) {
+            require_once($filename);
+            $classFound = true;
+            break;
+        //eventually this else block won't be needed
+        } else {
+             echo '<p>' . $filename . '(' . print_r($classFound) . ')</p>';
+        }
+    }
+
+    //if the file was not found at any of the paths, throw a 404
+    if ($classFound === false) {
+        //header("HTTP/1.0 404 Not Found");
+        //include (ROOT . DS . 'app' . DS . 'views' . DS . '404' . DS . 'index.php');
+        //die();
+        throw404();
+    }
+}
+
+
+// Next, register it with PHP.
+spl_autoload_register('requiredFiles');

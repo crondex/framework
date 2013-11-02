@@ -39,14 +39,17 @@ class ParseUrl
     public function getController()
     {
         if (isset($this->_urlArray[0]) && !empty($this->_urlArray[0])) {
-            $this->_controller = ucfirst(strtolower($this->_urlArray[0])) . 'Controller';
-            return $this->_controller;
-	}
+            $this->_controller = ucfirst(strtolower($this->_urlArray[0]));
+	} else {
+            $this->_controller = 'Index';
+        }
+        $this->_controller .= 'Controller';
+        return $this->_controller;
     }
 
     public function getModel()
     {
-        if (isset($this->_urlArray[0]) && !empty($this->_urlArray[0])) {
+        if ($this->getController()) {
             $this->_model = str_replace('Controller','Model',$this->getController()); 
 	    return $this->_model;
         }
@@ -54,7 +57,7 @@ class ParseUrl
 
     public function getView()
     {
-        if (isset($this->_urlArray[0]) && !empty($this->_urlArray[0])) {
+        if ($this->getController()) {
             $this->_view = strtolower(str_replace('Controller','',$this->getController())); 
             return $this->_view;
         }
@@ -76,12 +79,13 @@ class ParseUrl
     {
         if (isset($this->_urlArray[2]) && $this->_urlArray[2] != '') {
 
+            //We don't need the controller or the action (the first two elements)
             //get everything except for the first two elements of $this->_urlArray
             $this->_queryArray = array_slice($this->_urlArray, 2);
 
             //reconstruct path
             foreach ($this->_queryArray as $value) {
-		$this->_queryString .= '/' . $value;
+		$this->_queryString .= DS . $value;
             }
 	    return $this->_queryString;
 	}

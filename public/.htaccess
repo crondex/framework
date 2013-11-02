@@ -13,7 +13,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !(.*)/$
 
 ###if the above condition was met (and there is not a trailing slash)
-###skil the next RewriteRule
+###skip the next RewriteRule
 RewriteRule .? - [S=1]
 
 ###Assign URI values to $url

@@ -51,3 +51,11 @@ function unregisterGlobals()
     }
 }
 
+/** 404 Settings **/
+
+function throw404() {
+    header("HTTP/1.0 404 Not Found");
+    include (ROOT . DS . 'app' . DS . 'views' . DS . '404' . DS . 'index.php');
+    exit();
+}
+
