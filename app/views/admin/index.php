@@ -1,6 +1,6 @@
 <h1>Create a new user</h1>
 <p>
-<form action="../admin/newuser/" method="POST">
+<form action="admin/newuser" method="POST">
 Username:<br>
 <input type="text" name="user" size="60"><br>
 Password:<br>
@@ -9,7 +9,7 @@ Password:<br>
 </form>
 <h1>Log in</h1>
 <p>
-<form action="../admin/login/" method="POST">
+<form action="admin/login" method="POST">
 Username:<br>
 <input type="text" name="user" size="60"><br>
 Password:<br>
@@ -18,7 +18,7 @@ Password:<br>
 </form>
 <h1>Change password</h1>
 <p>
-<form action="../admin/passwd/" method="POST">
+<form action="admin/passwd" method="POST">
 Username:<br>
 <input type="text" name="user" size="60"><br>
 Current password:<br>
