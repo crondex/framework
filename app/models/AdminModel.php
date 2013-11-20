@@ -4,27 +4,21 @@
 
 class AdminModel extends Model
 {
-    protected $_hash;
     protected $_hasher;
-    protected $_hash_cost_log2;
-    protected $_hash_portable;
-    protected $_dummy_salt;
     protected $_msg;
 
-    function __construct($config)
+    function __construct($config, HasherInterface $hasherObj, MsgInterface $msgObj)
     {
         //call the parent constructor
 	parent::__construct($config);
 
-        //set vars
-	$this->_hash_cost_log2 = $config['hash_cost_log2'];
-	$this->_hash_portable = $config['hash_portable'];
-	$this->_dummy_salt = $config['dummy_salt'];
+        //inject object
+        $this->_hasher = $hasherObj;
 
-        //create objects
-	$this->_hasher = new PasswordHash($this->_hash_cost_log2, $this->_hash_portable);
-	$this->_msg = new Msg;
-	$this->_msg->debug = TRUE;
+        //inject object
+        $this->_msg = $msgObj;
+
+	//echo 'Random number:' . $this->_hasher->get_random_bytes(50);
     }
 
     public function userCheck($user)

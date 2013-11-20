@@ -1,6 +1,6 @@
 <?php
 
-class Msg
+class Msg implements MsgInterface
 {
 
     public $pubMsg;

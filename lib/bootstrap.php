@@ -27,8 +27,18 @@ try {
     $view = $parseUrl->getView();
     $queryString = $parseUrl->getQueryString();
 
+    //set hasher vars
+    $hash_cost_log2 = $config['hash_cost_log2'];
+    $hash_portable = $config['hash_portable'];
+    $dummy_salt = $config['dummy_salt'];
+
+    //instantiate hasher and msg
+    $hasherObj = new PasswordHash($hash_cost_log2, $hash_portable);
+    $msgObj = new Msg;
+    $msgObj->debug = TRUE;
+
     //instantiate model
-    $modelObj = new $model($config);
+    $modelObj = new $model($config,$hasherObj,$msgObj);
 
     //instantiate view (template)
     $viewObj = new View($view,$action);
