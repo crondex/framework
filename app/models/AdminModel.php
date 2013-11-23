@@ -5,9 +5,10 @@
 class AdminModel extends Model
 {
     protected $_hasher;
+    protected $_sessions;
     protected $_msg;
 
-    function __construct($config, HasherInterface $hasherObj, MsgInterface $msgObj)
+    function __construct($config, HasherInterface $hasherObj, SessionsInterface $sessionsObj, MsgInterface $msgObj)
     {
         //call the parent constructor
 	parent::__construct($config);
@@ -16,9 +17,10 @@ class AdminModel extends Model
         $this->_hasher = $hasherObj;
 
         //inject object
-        $this->_msg = $msgObj;
+        $this->_sessions = $sessionsObj;
 
-	//echo 'Random number:' . $this->_hasher->get_random_bytes(50);
+        //inject object
+        $this->_msg = $msgObj;
     }
 
     public function userCheck($user)
@@ -86,6 +88,12 @@ class AdminModel extends Model
     {
         if ($this->authenticate($user, $pass)) {
 
+            //$this->_sessions->start($user);
+
+
+            /**************************************************************
+            /** this is woring, but I want to move it to the sessions class
+
             //grab user row based on username
             $sql = "SELECT * FROM $this->_table where username=?";
             $params = array($user);
@@ -119,6 +127,9 @@ class AdminModel extends Model
             echo '<h1>' . strlen($token) . '</h1>';
 
             //delete old 'logged_in_user' record
+            $sql = "DELETE FROM logged_in_users WHERE user_id=?";
+            $params = array($user_id);
+            $this->query($sql, $params, 'names');
 
             //insert new 'logged_in_user' record
             $sql = "INSERT INTO logged_in_users (user_id, session_id, token) VALUES (?, ?, ?)";
@@ -130,6 +141,8 @@ class AdminModel extends Model
             } else {
                 echo "FAIL!";
             }
+
+            *******************************************************/
         }
 
         return $this->_msg->getMessage();

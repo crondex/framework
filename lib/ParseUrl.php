@@ -18,7 +18,7 @@ class ParseUrl
         $this->_url = $url;
 
         //check if $url ends in /
-        if ( substr($this->_url, -1) != '/') { $this->_url .= '/'; }
+        if (substr($this->_url, -1) != '/') { $this->_url .= '/'; }
 
         //break out $url into an array, delimited by '/'
         $this->_urlArray = explode('/',$this->_url);

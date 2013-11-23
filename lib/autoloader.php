@@ -32,21 +32,18 @@ function requiredFiles($className)
             require_once($filename);
             $classFound = true;
             break;
-        //eventually this else block won't be needed
-        } else {
-             echo '<p>' . $filename . '(' . print_r($classFound) . ')</p>';
+//        //functional testing
+//        //eventually this else block won't be needed
+//        } else {
+//             echo '<p>' . $filename . '(' . print_r($classFound) . ')</p>';
         }
     }
 
     //if the file was not found at any of the paths, throw a 404
     if ($classFound === false) {
-        //header("HTTP/1.0 404 Not Found");
-        //include (ROOT . DS . 'app' . DS . 'views' . DS . '404' . DS . 'index.php');
-        //die();
         throw404();
     }
 }
-
 
 // Next, register it with PHP.
 spl_autoload_register('requiredFiles');

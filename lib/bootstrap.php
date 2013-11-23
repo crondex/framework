@@ -12,14 +12,15 @@ unregisterGlobals();
 
 try {
 
-    echo "\$url pre parse: $url";
+//    //functional testing
+//    echo "\$url pre parse: $url";
 
     $parseUrl = new ParseUrl($url);
-//    $db = new Database($config);  //This is not needed, as model extends this class and is instantiated below.
 
-    echo '<br />controller: ' . $parseUrl->getController();
-    echo '<br />action: ' . $parseUrl->getAction();
-    echo '<br />queryString: ' . $parseUrl->getQueryString();
+//    //functional testing
+//    echo '<br />controller: ' . $parseUrl->getController();
+//    echo '<br />action: ' . $parseUrl->getAction();
+//    echo '<br />queryString: ' . $parseUrl->getQueryString();
 
     $model = $parseUrl->getModel();
     $controller = $parseUrl->getController();
@@ -32,13 +33,14 @@ try {
     $hash_portable = $config['hash_portable'];
     $dummy_salt = $config['dummy_salt'];
 
-    //instantiate hasher and msg
-    $hasherObj = new PasswordHash($hash_cost_log2, $hash_portable);
+    //instantiate hasher, sessions, and msg objects
+    $hasherObj = new PasswordHash($hash_cost_log2, $hash_portable); //this is PHPass
+    $sessionsObj = new Sessions($config,$hasherObj);
     $msgObj = new Msg;
-    $msgObj->debug = TRUE;
+    $msgObj->debug = $config['msg_debug'];
 
     //instantiate model
-    $modelObj = new $model($config,$hasherObj,$msgObj);
+    $modelObj = new $model($config,$hasherObj,$sessionsObj,$msgObj);
 
     //instantiate view (template)
     $viewObj = new View($view,$action);
