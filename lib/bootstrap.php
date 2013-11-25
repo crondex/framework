@@ -45,6 +45,9 @@ try {
     //instantiate view (template)
     $viewObj = new View($view,$action);
 
+    //instantiate input cleaner
+    $clean = new Clean;
+
    /**
     * This instantiates the dispatch object (which is an instance
     * of $controller (the subcontroller), which extends the
