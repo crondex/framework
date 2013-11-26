@@ -17,6 +17,12 @@ class AdminController extends Controller
         $this->set('auth',$this->AdminModel->loginUser($user, $pass)); //this calls the model method
     }
 
+    public function logout()
+    {
+        $this->set('title','Logout:');
+        $this->set('auth',$this->AdminModel->logout());
+    }
+
     public function newuser()
     {
 	$user = $_POST['user'];

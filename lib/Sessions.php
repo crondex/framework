@@ -13,6 +13,22 @@ class Sessions extends Model implements SessionsInterface
         $this->_hasher = $hasherObj;
     }
 
+    public function removeLoggedInUser() {
+
+        //open session
+        //session_start();
+
+        //delete old 'logged_in_user' record
+        $sql = "DELETE FROM logged_in_users WHERE user_id=? OR session_id=? OR token=?";
+        $params = array($_SESSION['user_id'], session_id(), $_SESSION['token']);
+        
+        if ($this->query($sql, $params, 'names')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function start($user) {
 
         //grab user row based on username
@@ -42,15 +58,19 @@ class Sessions extends Model implements SessionsInterface
         session_start();
         $_SESSION['token'] = $token;
         $_SESSION['user_id'] = $user_id;
+        $_SESSION['username'] = $user;
 
         //functional testing
         print_r($token);
         echo '<h1>' . strlen($token) . '</h1>';
 
         //delete old 'logged_in_user' record
-        $sql = "DELETE FROM logged_in_users WHERE user_id=?";
-        $params = array($user_id);
-        $this->query($sql, $params, 'names');
+//        $sql = "DELETE FROM logged_in_users WHERE user_id=?";
+//        $params = array($user_id);
+//        $this->query($sql, $params, 'names');
+
+        //remove logged-in User
+        $this->removeLoggedInUser();
 
         //insert new 'logged_in_user' record
         $sql = "INSERT INTO logged_in_users (user_id, session_id, token) VALUES (?, ?, ?)";
@@ -61,6 +81,17 @@ class Sessions extends Model implements SessionsInterface
 	    echo "SUCCESS!";
         } else {
 	    echo "FAIL!";
+        }
+    }
+
+    public function end()
+    {
+        if ($this->removeLoggedInUser()) {
+            session_unset();
+            session_destroy();
+            return true;
+        } else {
+            return false;
         }
     }
 }

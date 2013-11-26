@@ -46,6 +46,17 @@ class AdminModel extends Model
 	return true;
     }
 
+    public function hash($pass)
+    {
+        $this->_hash = $this->_hasher->HashPassword($pass);
+
+        if (isset($this->_hash) && strlen($this->_hash) > 20) {
+            return true;
+        } else {
+            return false;
+	}
+    }
+
     public function authenticate($user, $pass)
     {
         if (($this->userCheck($user)) && ($this->passCheck($pass))) {
@@ -89,74 +100,9 @@ class AdminModel extends Model
         if ($this->authenticate($user, $pass)) {
 
             $this->_sessions->start($user);
-
-
-            /**************************************************************
-            /** this is woring, but I want to move it to the sessions class
-
-            //grab user row based on username
-            $sql = "SELECT * FROM $this->_table where username=?";
-            $params = array($user);
-            $rows = $this->query($sql, $params, 'names');
-
-            //get user's 'id' and assign to $user_id
-            if ($rows) {
-                //loop through each row (there should only be one match)
-                foreach ($rows as $row) {
-                    $user_id = $row['id'];
-                }
-            }
-
-            //First, generate a random string.
-            $random = $this->_hasher->get_random_bytes(50);
-
-            //Build the token
-            $token = $_SERVER['HTTP_USER_AGENT'] . $random;
-
-            //hash the token
-            //although not a password, we're using the HashPassword method
-            $token = $this->_hasher->HashPassword($token);
-
-            //setup session
-            session_start();
-            $_SESSION['token'] = $token;
-            $_SESSION['user_id'] = $user_id; 
-
-            //functional testing
-	    print_r($token);
-            echo '<h1>' . strlen($token) . '</h1>';
-
-            //delete old 'logged_in_user' record
-            $sql = "DELETE FROM logged_in_users WHERE user_id=?";
-            $params = array($user_id);
-            $this->query($sql, $params, 'names');
-
-            //insert new 'logged_in_user' record
-            $sql = "INSERT INTO logged_in_users (user_id, session_id, token) VALUES (?, ?, ?)";
-            $params = array($user_id, session_id(), $token);
-
-            //grab the hash from the user's row
-            if ($this->query($sql, $params, 'names')) {
-                echo "SUCCESS!";
-            } else {
-                echo "FAIL!";
-            }
-
-            *******************************************************/
         }
 
         return $this->_msg->getMessage();
-    }
-
-    public function hash($pass)
-    {
-        $this->_hash = $this->_hasher->HashPassword($pass);
-
-        if (isset($this->_hash) && strlen($this->_hash) > 20) {
-            return true;
-        } else {
-            return false;
-	}
     }
 
     public function changePass($user, $pass, $newpass)
@@ -217,6 +163,19 @@ class AdminModel extends Model
         }
 
         //return the status
+        return $this->_msg->getMessage();
+    }
+
+    public function logout() {
+        session_start();
+	echo session_id();
+        var_dump($_SESSION);
+        $username = $_SESSION['username'];
+        if($this->_sessions->end()) {
+            $this->_msg->success("$username has been logged out.");
+        } else {
+            $this->_msg->fail("$username is still logged in.");
+        }
         return $this->_msg->getMessage();
     }
 }
