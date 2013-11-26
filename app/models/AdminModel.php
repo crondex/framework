@@ -88,7 +88,7 @@ class AdminModel extends Model
     {
         if ($this->authenticate($user, $pass)) {
 
-            //$this->_sessions->start($user);
+            $this->_sessions->start($user);
 
 
             /**************************************************************
