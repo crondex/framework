@@ -75,7 +75,7 @@ class AdminModel extends Model
                 foreach ($rows as $row) {
                     $hash = $row['password'];
                 }
-            }
+            } 
 
             //if the hash wasn't in the db
             if (isset($this->_dummy_salt) && (!isset($hash) || strlen($hash) < 20 )) {
@@ -91,17 +91,22 @@ class AdminModel extends Model
                 $this->_msg->fail(': Bad username/password combination.');
                 return false;
             }   
-	} 
+        } else {
+            return false;
+        } 
         return true;
     }
 
     public function loginUser($user, $pass)
     {
         if ($this->authenticate($user, $pass)) {
-
+            //start the session
             $this->_sessions->start($user);
-        }
 
+        } else {
+            //end the session
+            $this->_sessions->end();
+        }
         return $this->_msg->getMessage();
     }
 
@@ -169,7 +174,6 @@ class AdminModel extends Model
     public function logout() {
         session_start();
 	echo session_id();
-        var_dump($_SESSION);
         $username = $_SESSION['username'];
         if($this->_sessions->end()) {
             $this->_msg->success("$username has been logged out.");

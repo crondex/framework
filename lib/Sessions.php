@@ -16,7 +16,7 @@ class Sessions extends Model implements SessionsInterface
     public function removeLoggedInUser() {
 
         //open session
-        //session_start();
+        session_start(); //possibly check to see if it's started before running this
 
         //delete old 'logged_in_user' record
         $sql = "DELETE FROM logged_in_users WHERE user_id=? OR session_id=? OR token=?";
