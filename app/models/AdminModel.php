@@ -25,8 +25,8 @@ class AdminModel extends Model
 
     public function userCheck($user)
     {
-        /* Sanity-check the username, don't rely on our use of prepared statements
-        * alone to prevent attacks on the SQL server via malicious usernames. */
+        //Sanity-check the username, don't rely on our use of prepared statements
+        //alone to prevent attacks on the SQL server via malicious usernames.
         if (!preg_match('/^[a-zA-Z0-9_]{1,60}$/', $user)) {
             $this->_msg->fail(': Invalid username');
             return false;
@@ -75,6 +75,8 @@ class AdminModel extends Model
                 foreach ($rows as $row) {
                     $hash = $row['password'];
                 }
+            } else {
+                return false;
             } 
 
             //if the hash wasn't in the db
@@ -87,14 +89,13 @@ class AdminModel extends Model
             if ($this->_hasher->CheckPassword($pass, $hash)) {
                 $this->_msg->success('Authentication Succeeded!');
                 return true;
-            } else {
+           } else {
                 $this->_msg->fail(': Bad username/password combination.');
                 return false;
-            }   
-        } else {
-            return false;
+           }   
+           return false;
         } 
-        return true;
+        return false;
     }
 
     public function loginUser($user, $pass)
@@ -107,6 +108,7 @@ class AdminModel extends Model
             //end the session
             $this->_sessions->end();
         }
+        
         return $this->_msg->getMessage();
     }
 
@@ -172,14 +174,16 @@ class AdminModel extends Model
     }
 
     public function logout() {
-        session_start();
-	echo session_id();
-        $username = $_SESSION['username'];
+        //set username
+        isset($_SESSION['username']) ? $username = $_SESSION['username'] : $username = 'User';
+
+        //end session
         if($this->_sessions->end()) {
             $this->_msg->success("$username has been logged out.");
         } else {
             $this->_msg->fail("$username is still logged in.");
         }
+        header("location: ../admin");
         return $this->_msg->getMessage();
     }
 }

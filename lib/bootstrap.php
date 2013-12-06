@@ -2,13 +2,13 @@
 
 //bootstrap.php
 
-//temporarily set $_POST
-//$_POST['fruit'] = 'kiwi';
-//$_POST['vegitable'] = 'carrot';
-
 setReporting();
 removeMagicQuotes();
 unregisterGlobals();
+noCache();
+foreach (getallheaders() as $name => $value) {
+    echo "$name: $value\n";
+}
 
 try {
 
@@ -33,9 +33,14 @@ try {
     $hash_portable = $config['hash_portable'];
     $dummy_salt = $config['dummy_salt'];
 
-    //instantiate hasher, sessions, and msg objects
+    //instantiate hasher
     $hasherObj = new PasswordHash($hash_cost_log2, $hash_portable); //this is PHPass
+
+    //instatiate session manager and check session
     $sessionsObj = new Sessions($config,$hasherObj);
+    $sessionsObj->check();
+
+    //debugging
     $msgObj = new Msg;
     $msgObj->debug = $config['msg_debug'];
 

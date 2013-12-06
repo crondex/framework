@@ -2,5 +2,8 @@
 
 interface SessionsInterface
 {
-    //public function PasswordHash($iteration_count_log2, $portable_hashes);
+    public function removeLoggedInUser();
+    public function start($user);
+    public function check();
+    public function end();
 }
