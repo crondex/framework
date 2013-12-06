@@ -19,13 +19,14 @@ class AdminController extends Controller
         $this->set('title','Login:');
         $this->set('auth',$this->AdminModel->loginUser($user, $pass)); //this calls the model method
         //forward away, this prevents logging-in by click back and then reloading the login page (after a logout)
-        header("Location: ../admin");
+        header("Location: ../");
     }
 
     public function logout()
     {
         $this->set('title','Logout:');
         $this->set('auth',$this->AdminModel->logout());
+        header("Location: ../");
     }
 
     public function newuser()
