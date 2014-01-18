@@ -6,9 +6,12 @@ setReporting();
 removeMagicQuotes();
 unregisterGlobals();
 noCache();
-foreach (getallheaders() as $name => $value) {
-    echo "$name: $value\n";
-}
+
+//print headers`:w
+
+//foreach (getallheaders() as $name => $value) {
+//    echo "$name: $value\n";
+//}
 
 try {
 

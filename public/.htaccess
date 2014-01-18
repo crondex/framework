@@ -3,7 +3,7 @@
 RewriteEngine On
 
 #set the base for urls
-RewriteBase /test/mysql/staff_profiles
+RewriteBase /
   
 ### if the file does not exist
 RewriteCond %{REQUEST_FILENAME} !-f
