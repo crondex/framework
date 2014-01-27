@@ -57,14 +57,14 @@ class Sessions extends Model implements SessionsInterface
 
             //update database
             if ($this->query($sql, $params, 'names')) {
-                echo "<br />session updated<br />";
+                //echo "session has been updated";
                 return true;
             }
             return false;
-            echo "session update failed";
+            //echo "session update failed";
         }
         return false;
-        echo "session update failed - new token not set";
+        //echo "session update failed - new token not set";
     }
 
     public function removeLoggedInUser() {
@@ -151,8 +151,8 @@ class Sessions extends Model implements SessionsInterface
 
                 //check to see if the session_id and token match the database
                 if ($session_id == session_id() && $token == $_SESSION['token']) {
-                    echo "THEY ARE THE SAME!";
                     $this->refresh($_SESSION['user_id']);
+                    //echo "THEY ARE THE SAME!";
                 } else {
                     echo "THEY ARE DIFFERENT!";
                 }
