@@ -183,7 +183,6 @@ class AdminModel extends Model
         } else {
             $this->_msg->fail("$username is still logged in.");
         }
-        header("location: ../admin");
         return $this->_msg->getMessage();
     }
 }

@@ -154,7 +154,8 @@ class Sessions extends Model implements SessionsInterface
                     $this->refresh($_SESSION['user_id']);
                     //echo "THEY ARE THE SAME!";
                 } else {
-                    echo "THEY ARE DIFFERENT!";
+                    //echo "THEY ARE DIFFERENT!";
+                    $this->end(); //logout
                 }
             }
         }
