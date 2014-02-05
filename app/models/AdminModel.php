@@ -5,10 +5,10 @@
 class AdminModel extends Model
 {
     protected $_hasher;
-    protected $_sessions;
+    protected $_auth;
     protected $_msg;
 
-    function __construct($config, HasherInterface $hasherObj, SessionsInterface $sessionsObj, MsgInterface $msgObj)
+    function __construct($config, HasherInterface $hasherObj, AuthInterface $authObj, MsgInterface $msgObj)
     {
         //call the parent constructor
 	parent::__construct($config);
@@ -17,7 +17,7 @@ class AdminModel extends Model
         $this->_hasher = $hasherObj;
 
         //inject object
-        $this->_sessions = $sessionsObj;
+        $this->_auth = $authObj;
 
         //inject object
         $this->_msg = $msgObj;
@@ -102,11 +102,11 @@ class AdminModel extends Model
     {
         if ($this->authenticate($user, $pass)) {
             //start the session
-            $this->_sessions->start($user);
+            $this->_auth->start($user);
 
         } else {
-            //end the session
-            $this->_sessions->end();
+            //logout, end the session
+            $this->_auth->end();
         }
         
         return $this->_msg->getMessage();
@@ -178,7 +178,7 @@ class AdminModel extends Model
         isset($_SESSION['username']) ? $username = $_SESSION['username'] : $username = 'User';
 
         //end session
-        if($this->_sessions->end()) {
+        if($this->_auth->end()) {
             $this->_msg->success("$username has been logged out.");
         } else {
             $this->_msg->fail("$username is still logged in.");

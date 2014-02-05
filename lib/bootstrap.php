@@ -39,16 +39,16 @@ try {
     //instantiate hasher
     $hasherObj = new PasswordHash($hash_cost_log2, $hash_portable); //this is PHPass
 
-    //instatiate session manager and check session
-    $sessionsObj = new Sessions($config,$hasherObj);
-    $sessionsObj->check();
+    //instatiate auth manager and check auth/session
+    $authObj = new Auth($config,$hasherObj);
+    $authObj->check();
 
     //debugging
     $msgObj = new Msg;
     $msgObj->debug = $config['msg_debug'];
 
     //instantiate model
-    $modelObj = new $model($config,$hasherObj,$sessionsObj,$msgObj);
+    $modelObj = new $model($config,$hasherObj,$authObj,$msgObj);
 
     //instantiate view (template)
     $viewObj = new View($view,$action);

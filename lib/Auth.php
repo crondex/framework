@@ -1,6 +1,6 @@
 <?php
 
-class Sessions extends Model implements SessionsInterface
+class Auth extends Model implements AuthInterface
 {
     protected $_hasher;
     protected $_user;

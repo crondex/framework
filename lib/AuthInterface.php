@@ -1,6 +1,6 @@
 <?php
 
-interface SessionsInterface
+interface AuthInterface
 {
     public function removeLoggedInUser();
     public function start($user);
