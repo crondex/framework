@@ -101,12 +101,12 @@ class AdminModel extends Model
     public function loginUser($user, $pass)
     {
         if ($this->authenticate($user, $pass)) {
-            //start the session
-            $this->_auth->start($user);
+            //login
+            $this->_auth->login($user);
 
         } else {
-            //logout, end the session
-            $this->_auth->end();
+            //logout
+            $this->_auth->logout();
         }
         
         return $this->_msg->getMessage();
@@ -173,15 +173,18 @@ class AdminModel extends Model
         return $this->_msg->getMessage();
     }
 
-    public function logout() {
+    public function logoutUser() {
+
+        var_dump($_SESSION);
+
         //set username
         isset($_SESSION['username']) ? $username = $_SESSION['username'] : $username = 'User';
 
-        //end session
-        if($this->_auth->end()) {
+        //logout
+        if($this->_auth->logout()) {
             $this->_msg->success("$username has been logged out.");
         } else {
-            $this->_msg->fail("$username is still logged in.");
+            $this->_msg->fail("$username has been logged out.");
         }
         return $this->_msg->getMessage();
     }

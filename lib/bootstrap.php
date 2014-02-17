@@ -7,8 +7,7 @@ removeMagicQuotes();
 unregisterGlobals();
 noCache();
 
-//print headers`:w
-
+//print headers
 //foreach (getallheaders() as $name => $value) {
 //    echo "$name: $value\n";
 //}
@@ -38,6 +37,10 @@ try {
 
     //instantiate hasher
     $hasherObj = new PasswordHash($hash_cost_log2, $hash_portable); //this is PHPass
+
+    //instantiate session handler
+    $sessionManager = new SessionManager($config);
+    session_set_save_handler($sessionManager);
 
     //instatiate auth manager and check auth/session
     $authObj = new Auth($config,$hasherObj);

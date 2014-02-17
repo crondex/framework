@@ -3,7 +3,7 @@
 interface AuthInterface
 {
     public function removeLoggedInUser();
-    public function start($user);
+    public function login($user);
     public function check();
-    public function end();
+    public function logout();
 }

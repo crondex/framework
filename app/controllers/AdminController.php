@@ -25,7 +25,7 @@ class AdminController extends Controller
     public function logout()
     {
         $this->set('title','Logout:');
-        $this->set('auth',$this->AdminModel->logout());
+        $this->set('auth',$this->AdminModel->logoutUser());
 //        header("Location: ../");
     }
 

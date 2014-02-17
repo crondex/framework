@@ -14,15 +14,6 @@ class Auth extends Model implements AuthInterface
         $this->_hasher = $hasherObj;
     }
 
-    protected function start_session()
-    {
-        //start session (if not already started)
-        if(!isset($_SESSION)) {                       //this version works with PHP 4 and 5
-        //if (session_status() == PHP_SESSION_NONE) { //this version works with PHP >= 5.4
-            session_start();
-        }       
-    }
-
     protected function get_token() {
 
         //First, generate a random string.
@@ -48,7 +39,6 @@ class Auth extends Model implements AuthInterface
 
         //setup session
         if ($this->get_token()) {
-            $this->start_session();
             $_SESSION['token'] = $this->_token;
 
             //set sql to update token logged-in-users
@@ -69,9 +59,6 @@ class Auth extends Model implements AuthInterface
 
     public function removeLoggedInUser() {
 
-        //start session (if not already started)
-        $this->start_session();
-
         //if $_SESSION variables are set
         if (isset($_SESSION['user_id']) || isset($_SESSION['token'])) {
 
@@ -87,7 +74,7 @@ class Auth extends Model implements AuthInterface
         return false;
     }
 
-    public function start($user) {
+    public function login($user) {
 
         //grab user row based on username
         $sql = "SELECT * FROM admin where username=?";
@@ -104,9 +91,8 @@ class Auth extends Model implements AuthInterface
             return false;
         }
 
-        //setup session
+        //setup session vars
         if ($this->get_token()) {
-            $this->start_session();
             $_SESSION['token'] = $this->_token;
             $_SESSION['user_id'] = $user_id;
             $_SESSION['username'] = $user;
@@ -134,7 +120,6 @@ class Auth extends Model implements AuthInterface
 
     public function check()
     {
-        $this->start_session();
         if (isset($_SESSION['user_id'])) {
 
             $sql = "SELECT * FROM logged_in_users WHERE user_id=?";
@@ -155,13 +140,13 @@ class Auth extends Model implements AuthInterface
                     //echo "THEY ARE THE SAME!";
                 } else {
                     //echo "THEY ARE DIFFERENT!";
-                    $this->end(); //logout
+                    $this->logout();
                 }
             }
         }
     }
 
-    public function end()
+    public function logout()
     {
         if ($this->removeLoggedInUser()) {
 
