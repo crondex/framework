@@ -12,19 +12,28 @@ cp ${CONFIGDIR}/config.php.blank ${CONFIGDIR}/config.php
 #add blank config  to repo
 git add ${CONFIGDIR}/config.php
 
-echo "Would you like to 'commit' or 'push'?";
+echo "Would you like to 'commit', 'push', 'checkout', or 'merge'?";
 read PUSHORGET;
 
-#either commit or push based on input
-if [ "$PUSHORGET" == "commit" ]
-then
-    git commit
-elif [ "$PUSHORGET" == "push" ]
-then
-    git push
-else
-    echo "Illegal option: $PUSHORGET"
-fi
+#route based on input
+case "$PUSHORGET" in
+    commit) git commit
+        ;;
+    push) git push
+        ;;
+    checkout) git branch
+        echo "Which branch would you like to checkout?"
+        read BRANCH
+        git checkout $BRANCH
+        ;;
+    merge) git branch
+        echo "With which branch would you like to merge?"
+        read BRANCH
+        git merge $BRANCH
+        ;;
+    *) echo "Illegal option: $PUSHORGET"
+        ;;
+esac
 
 #copy the usable (configured) config back
 cp ${CONFIGDIR}/config.php.tmp ${CONFIGDIR}/config.php
