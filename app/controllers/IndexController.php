@@ -1,6 +1,6 @@
 <?php
 
-//AdminController.php
+//IndexController.php
 
 class IndexController extends Controller
 {

@@ -4,6 +4,8 @@
 
 class AdminModel extends Model
 {
+    public $config;
+    protected $_dummy_salt;
     protected $_hasher;
     protected $_auth;
     protected $_msg;
@@ -12,6 +14,14 @@ class AdminModel extends Model
     {
         //call the parent constructor
 	parent::__construct($config);
+
+        //enable full config access to class
+        //I've commented this for now, to be more secure.
+        //Instead, I just set the dummy_salt below.
+        //$this->config = $config;
+
+        //set dummy salt
+        $this->_dummy_salt = $config['dummy_salt'];
 
         //inject object
         $this->_hasher = $hasherObj;
@@ -23,6 +33,7 @@ class AdminModel extends Model
         $this->_msg = $msgObj;
     }
 
+    //checks for valid username
     public function userCheck($user)
     {
         //Sanity-check the username, don't rely on our use of prepared statements
@@ -34,6 +45,7 @@ class AdminModel extends Model
 	return true;
     }
 
+    //checks password length
     public function passCheck($pass)
     {
         if (!isset($pass) || strlen($pass) < 4) {
@@ -48,6 +60,7 @@ class AdminModel extends Model
 
     public function hash($pass)
     {
+        //use phpass hasher to has password
         $this->_hash = $this->_hasher->HashPassword($pass);
 
         if (isset($this->_hash) && strlen($this->_hash) > 20) {
@@ -86,13 +99,14 @@ class AdminModel extends Model
                 $hash = $this->_dummy_salt;
             }
 
+            //check password
             if ($this->_hasher->CheckPassword($pass, $hash)) {
                 $this->_msg->success('Authentication Succeeded!');
                 return true;
-           } else {
+            } else {
                 $this->_msg->fail(': Bad username/password combination.');
                 return false;
-           }   
+            }   
            return false;
         } 
         return false;

@@ -2,7 +2,6 @@
 
 class Msg implements MsgInterface
 {
-
     public $pubMsg;
     public $pvtMsg;
     public $successMessage;
@@ -20,7 +19,7 @@ class Msg implements MsgInterface
         if ($this->debug && $pvtMsg !== '') {
             $this->message .= ": $pvtMsg";
         }
-        $this->errorMessage = 'An error occured. ' . $this->message . '<br />';
+        $this->errorMessage = 'An error occured' . $this->message . '<br />';
     }
 
     public function success($pubMsg)

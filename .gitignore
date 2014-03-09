@@ -1,0 +1,5 @@
+config/config.php.default
+config/config.php.tmp
+vendor/
+tmp/
+*.DS_Store
