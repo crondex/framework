@@ -1,7 +1,7 @@
 app/controllers/AdminController.php
 scripts/cleanGit.php
 config/config.php.blank
-config/config.php.tmp
+config/config.php.configured
 vendor/
 tmp/
 *.DS_Store

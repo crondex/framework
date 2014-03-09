@@ -3,13 +3,10 @@
 
 CONFIGDIR='/home/frmwk/frmwk.crondex.com/config';
 
-#move the running config to a temp location
-mv ${CONFIGDIR}/config.php ${CONFIGDIR}/config.php.tmp;
-
-#copy a blank config in place of the running config
+#copy a blank config over the config
 cp ${CONFIGDIR}/config.php.blank ${CONFIGDIR}/config.php
 
-#add blank config  to repo
+#add blank config to repo
 git add ${CONFIGDIR}/config.php
 
 echo "Would you like to 'commit', 'push', 'checkout', or 'merge'?";
@@ -35,6 +32,5 @@ case "$PUSHORGET" in
         ;;
 esac
 
-#copy the usable (configured) config back
-cp ${CONFIGDIR}/config.php.tmp ${CONFIGDIR}/config.php
-rm -f ${CONFIGDIR}/config.php.tmp
+#copy the conifgured config back
+cp ${CONFIGDIR}/config.php.configured ${CONFIGDIR}/config.php
