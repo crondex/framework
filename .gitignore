@@ -1,4 +1,6 @@
-config/config.php.default
+app/controllers/AdminController.php
+scripts/cleanGit.php
+config/config.php.blank
 config/config.php.tmp
 vendor/
 tmp/
