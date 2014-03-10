@@ -18,10 +18,13 @@ case "$PUSHORGET" in
         ;;
     push) git push
         ;;
-    checkout) git branch
-        echo "Which branch would you like to checkout?"
+    checkout) echo "Would you like to create a new branch?"
+        read NEWBRANCH
+        if [ "$NEWBRANCH" == "yes" ]; then BRANCHFLAG='-b'; fi
+        git branch
+        echo "Which branch would you like to checkout/create?"
         read BRANCH
-        git checkout $BRANCH
+        git checkout $BRANCHFLAG $BRANCH
         ;;
     merge) git branch
         echo "With which branch would you like to merge?"
