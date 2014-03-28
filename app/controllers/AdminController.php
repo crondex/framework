@@ -1,6 +1,6 @@
 <?php
 
-//AdminController.php
+use Crondex\Routing\Controller;
 
 class AdminController extends Controller
 {

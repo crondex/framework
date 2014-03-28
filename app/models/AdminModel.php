@@ -1,30 +1,24 @@
 <?php
 
-//AdminModel.php
+use Crondex\Model\Model;
+use Crondex\Security\RandomInterface;
+use Crondex\Auth\AuthInterface;
+use Crondex\Log\MsgInterface;
 
 class AdminModel extends Model
 {
     public $config;
-    protected $_dummy_salt;
-    protected $_hasher;
+    //protected $_dummy_salt;
     protected $_auth;
     protected $_msg;
 
-    function __construct($config, HasherInterface $hasherObj, AuthInterface $authObj, MsgInterface $msgObj)
+    function __construct($config, RandomInterface $randomObj, AuthInterface $authObj, MsgInterface $msgObj)
     {
         //call the parent constructor
 	parent::__construct($config);
 
-        //enable full config access to class
-        //I've commented this for now, to be more secure.
-        //Instead, I just set the dummy_salt below.
-        //$this->config = $config;
-
-        //set dummy salt
-        $this->_dummy_salt = $config['dummy_salt'];
-
         //inject object
-        $this->_hasher = $hasherObj;
+        $this->_random = $randomObj;
 
         //inject object
         $this->_auth = $authObj;
@@ -61,7 +55,7 @@ class AdminModel extends Model
     public function hash($pass)
     {
         //use phpass hasher to has password
-        $this->_hash = $this->_hasher->HashPassword($pass);
+        $this->_hash = password_hash($pass, PASSWORD_BCRYPT, array("cost" => 10));
 
         if (isset($this->_hash) && strlen($this->_hash) > 20) {
             return true;
@@ -92,15 +86,8 @@ class AdminModel extends Model
                 return false;
             } 
 
-            //if the hash wasn't in the db
-            if (isset($this->_dummy_salt) && (!isset($hash) || strlen($hash) < 20 )) {
-
-                //Mitigate against timing attacks (attackers probing for valid usernames)
-                $hash = $this->_dummy_salt;
-            }
-
             //check password
-            if ($this->_hasher->CheckPassword($pass, $hash)) {
+            if (password_verify($pass, $hash)) {
                 $this->_msg->success('Authentication Succeeded!');
                 return true;
             } else {
@@ -157,7 +144,7 @@ class AdminModel extends Model
         //check username and password
         if ($this->userCheck($user) && $this->passCheck($pass)) {
 
-            //if hashing was successful (this also sets the hash
+            //if hashing was successful (this also sets the hash)
             if ($this->hash($pass)) {
 
                 //set prepared statements

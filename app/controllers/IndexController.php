@@ -1,6 +1,6 @@
 <?php
 
-//IndexController.php
+use Crondex\Routing\Controller;
 
 class IndexController extends Controller
 {

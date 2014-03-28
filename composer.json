@@ -1,0 +1,38 @@
+{
+    "name": "crondex/crondex",
+    "description": "Crondex Framework",
+    "version": "0.0.1",
+    "keywords": ["framework", "crondex"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrew McLaughlin",
+            "email": "info@andrewmclaughlin.com",
+            "homepage": "http://www.andrewmclaughlin.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "ircmaxell/password-compat": "1.0.3"
+    },
+    "autoload": {
+        "classmap": [
+            "app/controllers",
+            "app/models",
+            "app/views",
+            "app/tests",
+            "app/storage/cache",
+            "app/storage/logs",
+            "app/storage/session"
+        ],
+        "files": [
+            "app/config/env.php",
+            "app/config/main.php",
+            "vendor/crondex/src/bootstrap/functions.php",
+            "vendor/crondex/src/bootstrap/bootstrap.php"
+        ],
+        "psr-4": {
+            "Crondex\\": "vendor/crondex/src/"
+        }
+    }
+}

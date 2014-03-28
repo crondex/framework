@@ -1,7 +1,21 @@
-app/controllers/AdminController.php
-scripts/cleanGit.php
-config/config.php.blank
-config/config.php.configured
-vendor/
+scripts/cleanGit.sh
+
+app/config/main.php.blank
+app/config/main.php.configured
+app/config/env.php.blank
+app/config/env.php.configured
+
+#include vendor
+!vendor/
+
+#but ignore everything inside it
+vendor/*
+
+#except for these:
+!vendor/crondex/
+!vendor/autoload.php
+!vendor/composer/
+
 tmp/
 *.DS_Store
+

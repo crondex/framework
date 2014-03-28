@@ -3,8 +3,4 @@
 define('DS', DIRECTORY_SEPARATOR); 
 define('ROOT', dirname(dirname(__FILE__)));
 
-require_once (ROOT . DS . 'config' . DS . 'config.php');
-require_once (ROOT . DS . 'lib' . DS . 'autoloader.php');
-require_once (ROOT . DS . 'lib' . DS . 'functions.php');
-require_once (ROOT . DS . 'lib' . DS . 'bootstrap.php');
-
+require_once (ROOT . DS . 'vendor' . DS . 'autoload.php');
