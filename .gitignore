@@ -1,9 +1,20 @@
-scripts/cleanGit.sh
+#----------------------------------
+# Config files
+#----------------------------------
 
-app/config/main.php.blank
-app/config/main.php.configured
-app/config/env.php.blank
-app/config/env.php.configured
+#include app/config
+!app/config/
+
+#but ignore everything inside it
+app/config/*
+
+#except for these:
+!app/config/main.php
+!app/config/env.php
+
+#----------------------------------
+# Vendor files
+#----------------------------------
 
 #include vendor
 !vendor/
@@ -15,6 +26,10 @@ vendor/*
 !vendor/crondex/
 !vendor/autoload.php
 !vendor/composer/
+
+#----------------------------------
+# Misc. Files
+#----------------------------------
 
 tmp/
 *.DS_Store
