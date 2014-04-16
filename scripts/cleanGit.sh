@@ -13,6 +13,9 @@ function copyConfigs {
     do
         if [ $1 == 'begin' ]
         then
+            #stage config
+            git add ${CONFIGDIR}/${CONFIGFILE}
+
             #copy a blank config over the configured config
             cp ${CONFIGDIR}/${CONFIGFILE}.blank ${CONFIGDIR}/${CONFIGFILE}
  
@@ -23,6 +26,9 @@ function copyConfigs {
         then
             #copy back a conifgured config
             cp ${CONFIGDIR}/${CONFIGFILE}.configured ${CONFIGDIR}/${CONFIGFILE}
+
+            #unstage config file from repo
+            git rm -r --cached ${CONFIGDIR}/${CONFIGFILE}
         fi
     done
 }

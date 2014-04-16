@@ -23,9 +23,8 @@ app/config/*
 #but ignore everything inside it
 vendor/*
 
-#except for these:
-!vendor/crondex/
-!vendor/composer/
+#except for these
+#(list vendor files to include here):
 
 #----------------------------------
 # Misc. Files
