@@ -10,7 +10,7 @@ class Auth extends Model implements AuthInterface
     protected $_user;
     protected $_token;
 
-    public function __construct($config, $randomObj)
+    public function __construct($config, RandomInterface $randomObj)
     {
         //call the parent constructor
         parent::__construct($config);
@@ -158,10 +158,6 @@ class Auth extends Model implements AuthInterface
 
             session_unset();
             $_SESSION = '';
-
-            //under php 5.1.2 calling session_destroy after session_regenerate_id() will throw this error:
-            //Warning: session_destroy() [function.session-destroy]: Session object destruction failed...
-            //https://bugs.php.net/bug.php?id=36872
             session_destroy();
 
             return true;

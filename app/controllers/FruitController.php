@@ -1,12 +1,12 @@
 <?php
 
-//FruitController.php
+use Crondex\Routing\Controller;
 
 class FruitController extends Controller
 {
     public function apple()
     {
-        echo "Apple is the fruit";
+        echo "Apple is the fruit - this is being echoed from $fruit::apple()";
     }
 
     public function viewall()

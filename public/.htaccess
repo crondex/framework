@@ -16,9 +16,9 @@ RewriteCond %{REQUEST_URI} (.*)/$
 ###skip the next RewriteRule
 RewriteRule .? - [S=1]
 
-###Assign URI values to $url
+###Assign URI values to $uri
 ###QSA will preserve the existing query string
-RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
+RewriteRule ^(.*)$ index.php?uri=$1 [L,QSA]
 
 ### redirect and remove the slash
 RewriteRule ^(.*)/$ $1 [L,R=301]

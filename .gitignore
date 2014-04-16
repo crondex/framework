@@ -9,7 +9,8 @@
 app/config/*
 
 #except for these:
-!app/config/main.php
+!app/config/main.ini
+!app/config/routes.ini
 !app/config/env.php
 
 #----------------------------------
@@ -24,8 +25,6 @@ vendor/*
 
 #except for these:
 !vendor/crondex/
-!vendor/autoload.php
-!vendor/composer/
 
 #----------------------------------
 # Misc. Files

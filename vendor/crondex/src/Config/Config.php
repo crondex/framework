@@ -5,38 +5,41 @@ use Exception;
 class Config
 {
     protected $_configFilePath;
+    protected $_config = array();
 
     public function __construct($configFilePath)
     {
         $this->_configFilePath = $configFilePath;
-        $this->load();
+        $this->set();
     }
 
-    protected function load()
+    protected function set()
     {
-        if (!file_exists("$this->_configFilePath")){
-            throw new Exception('Configuration file not found');
-        } else {
-            //$this->_config = file_get_contents($this->_configFilePath);
-            $this->_config = require $this->_configFilePath;
-            //echo '<pre>';
-            //var_dump($this->_config);
-            //echo '</pre>';
-            //foreach ($this->_config as $k => $v) {
-            //   echo "\$a[$k] => $v.\n";
-            //}
+        try {
+            if (file_exists($this->_configFilePath)){
+                $this->_config = parse_ini_file($this->_configFilePath, true); //'true' processes sections
+            } else {
+                throw new Exception('Configuration file not found');
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
         }
     }
 
     public function get($configKey) {
-        if ($this->_config !== NULL) {
-            if (isset($this->_config[$configKey])) {             
-                return $this->_config[$configKey];
+       try {
+            if ($this->_config !== NULL) {
+                if (array_key_exists($configKey, $this->_config)) {
+                    return $this->_config[$configKey];
+                } else {
+                    throw new Exception('Config Variable ' . $configKey . ' does not exist');
+                }
             } else {
-                throw new Exception('Config Variable ' . $configKey . ' does not exist');
-            }
-        } else {
-            throw new Exception('Configuration file was not loaded.');
-        } 
+                throw new Exception('Configuration file was not loaded.');
+            } 
+        } catch (Exception $e) {
+            //echo 'Caught exception: ',  $e->getMessage(), "\n"; //log this, don't echo it out
+        }
+        return false;
     }
 }

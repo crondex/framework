@@ -9,7 +9,7 @@
 CONFIGDIR='/home/frmwk/frmwk.crondex.com/app/config';
 
 function copyConfigs {
-    for CONFIGFILE in $(ls -1 $CONFIGDIR | grep -v php.) #screen out any undeleted tempt files
+    for CONFIGFILE in $(ls -1 $CONFIGDIR | grep -v 'php.\|ini.') #screen out blank and configured copies
     do
         if [ $1 == 'begin' ]
         then

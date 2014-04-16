@@ -13,7 +13,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "ircmaxell/password-compat": "1.0.3"
+        "ircmaxell/password-compat": "1.0.3",
+        "phpunit/phpunit": "4.0.*"
     },
     "autoload": {
         "classmap": [
@@ -27,7 +28,6 @@
         ],
         "files": [
             "app/config/env.php",
-            "app/config/main.php",
             "vendor/crondex/src/bootstrap/functions.php",
             "vendor/crondex/src/bootstrap/bootstrap.php"
         ],
