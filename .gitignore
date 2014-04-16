@@ -25,6 +25,7 @@ vendor/*
 
 #except for these:
 !vendor/crondex/
+!vendor/composer/
 
 #----------------------------------
 # Misc. Files
