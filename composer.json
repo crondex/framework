@@ -28,8 +28,8 @@
         ],
         "files": [
             "app/config/env.php",
-            "vendor/crondex/src/bootstrap/functions.php",
-            "vendor/crondex/src/bootstrap/bootstrap.php"
+            "vendor/crondex/src/Bootstrap/functions.php",
+            "vendor/crondex/src/Bootstrap/bootstrap.php"
         ],
         "psr-4": {
             "Crondex\\": "vendor/crondex/src/"

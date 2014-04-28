@@ -86,6 +86,8 @@ class AdminModel extends Model
                 return false;
             } 
 
+            echo $hash;
+
             //check password
             if (password_verify($pass, $hash)) {
                 $this->_msg->success('Authentication Succeeded!');
@@ -175,8 +177,6 @@ class AdminModel extends Model
     }
 
     public function logoutUser() {
-
-        var_dump($_SESSION);
 
         //set username
         isset($_SESSION['username']) ? $username = $_SESSION['username'] : $username = 'User';

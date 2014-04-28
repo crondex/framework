@@ -14,12 +14,13 @@ class AdminController extends Controller
         //prevent caching of login credentials
         header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
         header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-	$user = $_POST['user'];
-	$pass = $_POST['pass'];
+	$user = $this->getPost('user');
+	$pass = $this->getPost('pass');
         $this->set('title','Login:');
         $this->set('auth',$this->AdminModel->loginUser($user, $pass)); //this calls the model method
+
         //forward away, this prevents logging-in by click back and then reloading the login page (after a logout)
-//        header("Location: ../");
+        //header("Location: ../");
     }
 
     public function logout()
@@ -31,17 +32,17 @@ class AdminController extends Controller
 
     public function newuser()
     {
-	$user = $_POST['user'];
-	$pass = $_POST['pass'];
+	$user = $this->getPost('user');
+	$pass = $this->getPost('pass'); 
         $this->set('title','Create New User:');
         $this->set('auth',$this->AdminModel->createNewUser($user, $pass));
     }
 
     public function passwd()
     {
-	$user = $_POST['user'];
-	$pass = $_POST['pass'];
-	$newpass = $_POST['newpass'];
+	$user = $this->getPost('user');
+	$pass = $this->getPost('pass'); 
+	$newpass = $this->getPost('newpass'); 
         $this->set('title','Change Password:');
         $this->set('auth',$this->AdminModel->changePass($user, $pass, $newpass));
     }
