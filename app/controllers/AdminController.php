@@ -46,11 +46,5 @@ class AdminController extends Controller
         $this->set('title','Change Password:');
         $this->set('auth',$this->AdminModel->changePass($user, $pass, $newpass));
     }
-
-    //if this is unccommented, the parent destructor must be called explicitly.
-    //function __destruct()
-    //{
-        //parent::__destruct()
-    //}
 }
 

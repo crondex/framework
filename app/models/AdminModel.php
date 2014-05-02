@@ -86,8 +86,6 @@ class AdminModel extends Model
                 return false;
             } 
 
-            echo $hash;
-
             //check password
             if (password_verify($pass, $hash)) {
                 $this->_msg->success('Authentication Succeeded!');

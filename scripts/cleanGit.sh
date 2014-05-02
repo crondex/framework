@@ -38,7 +38,7 @@ function copyConfigs {
 copyConfigs begin
 
 #prompt user
-echo "Would you like to 'commit', 'push', 'checkout', or 'merge'?";
+echo "Would you like to 'commit', 'push', 'checkout', 'merge', or 'ammend'?";
 read COMMAND;
 
 #route based on input
@@ -59,6 +59,8 @@ case "$COMMAND" in
         echo "With which branch would you like to merge?"
         read BRANCH
         git merge $BRANCH
+        ;;
+    ammend) git commit --amend
         ;;
     *) echo "Illegal option: $COMMAND"
         ;;
