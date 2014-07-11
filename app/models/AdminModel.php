@@ -3,14 +3,14 @@
 use Crondex\Model\Model;
 use Crondex\Security\RandomInterface;
 use Crondex\Auth\AuthInterface;
-use Crondex\Log\MsgInterface;
+use Crondex\Helpers\MsgInterface;
 
 class AdminModel extends Model
 {
     public $config;
-    //protected $_dummy_salt;
-    protected $_auth;
-    protected $_msg;
+    //protected $dummy_salt;
+    protected $auth;
+    protected $msg;
 
     function __construct($config, RandomInterface $randomObj, AuthInterface $authObj, MsgInterface $msgObj)
     {
@@ -18,13 +18,13 @@ class AdminModel extends Model
 	parent::__construct($config);
 
         //inject object
-        $this->_random = $randomObj;
+        $this->random = $randomObj;
 
         //inject object
-        $this->_auth = $authObj;
+        $this->auth = $authObj;
 
         //inject object
-        $this->_msg = $msgObj;
+        $this->msg = $msgObj;
     }
 
     //checks for valid username
@@ -33,7 +33,7 @@ class AdminModel extends Model
         //Sanity-check the username, don't rely on our use of prepared statements
         //alone to prevent attacks on the SQL server via malicious usernames.
         if (!preg_match('/^[a-zA-Z0-9_]{1,60}$/', $user)) {
-            $this->_msg->fail(': Invalid username');
+            $this->msg->fail(': Invalid username');
             return false;
 	}
 	return true;
@@ -43,10 +43,10 @@ class AdminModel extends Model
     public function passCheck($pass)
     {
         if (!isset($pass) || strlen($pass) < 4) {
-            $this->_msg->fail(': Password is too short');
+            $this->msg->fail(': Password is too short');
             return false;
         } elseif (strlen($pass) > 72) {
-            $this->_msg->fail(': Password is too long');       
+            $this->msg->fail(': Password is too long');       
             return false;
         }
 	return true;
@@ -55,9 +55,9 @@ class AdminModel extends Model
     public function hash($pass)
     {
         //use phpass hasher to has password
-        $this->_hash = password_hash($pass, PASSWORD_BCRYPT, array("cost" => 10));
+        $this->hash = password_hash($pass, PASSWORD_BCRYPT, array("cost" => 10));
 
-        if (isset($this->_hash) && strlen($this->_hash) > 20) {
+        if (isset($this->hash) && strlen($this->hash) > 20) {
             return true;
         } else {
             return false;
@@ -69,7 +69,7 @@ class AdminModel extends Model
         if (($this->userCheck($user)) && ($this->passCheck($pass))) {
 
             //set prepared statements
-            $sql = "SELECT password FROM $this->_table where username=?";
+            $sql = "SELECT password FROM $this->table where username=?";
             $params = array($user);
 
             //grab the hash from the user's row
@@ -88,10 +88,10 @@ class AdminModel extends Model
 
             //check password
             if (password_verify($pass, $hash)) {
-                $this->_msg->success('Authentication Succeeded!');
+                $this->msg->success('Authentication Succeeded!');
                 return true;
             } else {
-                $this->_msg->fail(': Bad username/password combination.');
+                $this->msg->fail(': Bad username/password combination.');
                 return false;
             }   
            return false;
@@ -103,14 +103,14 @@ class AdminModel extends Model
     {
         if ($this->authenticate($user, $pass)) {
             //login
-            $this->_auth->login($user);
+            $this->auth->login($user);
 
         } else {
             //logout
-            $this->_auth->logout();
+            $this->auth->logout();
         }
         
-        return $this->_msg->getMessage();
+        return $this->msg->getMessage();
     }
 
     public function changePass($user, $pass, $newpass)
@@ -121,22 +121,22 @@ class AdminModel extends Model
             if ($this->userCheck($user) && $this->passCheck($pass) && $this->passCheck($newpass) && $this->hash($newpass)) {
                
                 //set prepared statements
-                $sql = "UPDATE $this->_table SET password=? WHERE username=?";
-                $params = array($this->_hash, $user);
+                $sql = "UPDATE $this->table SET password=? WHERE username=?";
+                $params = array($this->hash, $user);
 
                 //query the database    
                 if ($this->query($sql, $params)) {
 
                     //user was created successfully
-                    $this->_msg->success("Your password has been changed to \"$newpass\".");
+                    $this->msg->success("Your password has been changed to \"$newpass\".");
 
                 } else {
                     //it must have failed for some other reason
-                    $this->_msg->fail(': Password change failed.');
+                    $this->msg->fail(': Password change failed.');
                 } 
             }
         }
-        return $this->_msg->getMessage();
+        return $this->msg->getMessage();
     }
 
     public function createNewUser($user, $pass)
@@ -148,30 +148,30 @@ class AdminModel extends Model
             if ($this->hash($pass)) {
 
                 //set prepared statements
-                $sql = "INSERT INTO $this->_table (username, password) VALUES (?, ?)";
-                $params = array($user, $this->_hash);
+                $sql = "INSERT INTO $this->table (username, password) VALUES (?, ?)";
+                $params = array($user, $this->hash);
 
                 //query the database    
                 if ($this->query($sql, $params)) {
 
                     //user was created successfully
-		    $this->_msg->success("The user \"$user\" Created.");
+		    $this->msg->success("The user \"$user\" Created.");
 
                 //check why the query fail?
                 } else {
 
                     //username taken
                     if ($this->sqlErrorCode == 1062 ) {
-                        $this->_msg->fail(': Username already taken');
+                        $this->msg->fail(': Username already taken');
                     } else {
-                        $this->_msg->fail(': User creation failed.');
+                        $this->msg->fail(': User creation failed.');
                     }
                 }
             }
         }
 
         //return the status
-        return $this->_msg->getMessage();
+        return $this->msg->getMessage();
     }
 
     public function logoutUser() {
@@ -180,12 +180,12 @@ class AdminModel extends Model
         isset($_SESSION['username']) ? $username = $_SESSION['username'] : $username = 'User';
 
         //logout
-        if($this->_auth->logout()) {
-            $this->_msg->success("$username has been logged out.");
+        if($this->auth->logout()) {
+            $this->msg->success("$username has been logged out.");
         } else {
-            $this->_msg->fail("$username has been logged out.");
+            $this->msg->fail("$username has been logged out.");
         }
-        return $this->_msg->getMessage();
+        return $this->msg->getMessage();
     }
 }
 

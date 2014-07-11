@@ -12,7 +12,7 @@ class FruitController extends Controller
     public function viewall()
     {
         $this->set('title','All Fruit');
-        $this->set('fruit',$this->FruitModel->selectAll()); //this is calling a model method
+        $this->set('fruit',$this->model->selectAll()); //this is calling a model method
     }
 }
 

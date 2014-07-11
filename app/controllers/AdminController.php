@@ -17,7 +17,7 @@ class AdminController extends Controller
 	$user = $this->getPost('user');
 	$pass = $this->getPost('pass');
         $this->set('title','Login:');
-        $this->set('auth',$this->AdminModel->loginUser($user, $pass)); //this calls the model method
+        $this->set('auth',$this->model->loginUser($user, $pass)); //this calls the model method
 
         //forward away, this prevents logging-in by click back and then reloading the login page (after a logout)
         //header("Location: ../");
@@ -26,7 +26,7 @@ class AdminController extends Controller
     public function logout()
     {
         $this->set('title','Logout:');
-        $this->set('auth',$this->AdminModel->logoutUser());
+        $this->set('auth',$this->model->logoutUser());
 //        header("Location: ../");
     }
 
@@ -35,7 +35,7 @@ class AdminController extends Controller
 	$user = $this->getPost('user');
 	$pass = $this->getPost('pass'); 
         $this->set('title','Create New User:');
-        $this->set('auth',$this->AdminModel->createNewUser($user, $pass));
+        $this->set('auth',$this->model->createNewUser($user, $pass));
     }
 
     public function passwd()
@@ -44,7 +44,7 @@ class AdminController extends Controller
 	$pass = $this->getPost('pass'); 
 	$newpass = $this->getPost('newpass'); 
         $this->set('title','Change Password:');
-        $this->set('auth',$this->AdminModel->changePass($user, $pass, $newpass));
+        $this->set('auth',$this->model->changePass($user, $pass, $newpass));
     }
 }
 
