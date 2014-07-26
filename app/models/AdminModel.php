@@ -4,27 +4,29 @@ use Crondex\Model\Model;
 use Crondex\Security\RandomInterface;
 use Crondex\Auth\AuthInterface;
 use Crondex\Helpers\MsgInterface;
+use Crondex\Config\EnvironmentInterface;
 
 class AdminModel extends Model
 {
     public $config;
-    //protected $dummy_salt;
+    public $env;
     protected $auth;
     protected $msg;
 
-    function __construct($config, RandomInterface $randomObj, AuthInterface $authObj, MsgInterface $msgObj)
+    function __construct($config, RandomInterface $randomObj, AuthInterface $authObj, MsgInterface $msgObj, EnvironmentInterface $envObj)
     {
         //call the parent constructor
 	parent::__construct($config);
 
-        //inject object
+        //inject objects
         $this->random = $randomObj;
-
-        //inject object
         $this->auth = $authObj;
-
-        //inject object
         $this->msg = $msgObj;
+        $this->env = $envObj;
+        $this->config = $config;
+
+        //set no caching
+        //$this->env->setHeaders('noCache');
     }
 
     //checks for valid username
@@ -64,7 +66,7 @@ class AdminModel extends Model
 	}
     }
 
-    public function authenticate($user, $pass)
+    public function authenticate($user = '', $pass = '')
     {
         if (($this->userCheck($user)) && ($this->passCheck($pass))) {
 

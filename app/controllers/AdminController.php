@@ -11,16 +11,14 @@ class AdminController extends Controller
 
     public function login()
     {
-        //prevent caching of login credentials
-        header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-        header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+        $this->model->env->setHeaders('noCache');
 	$user = $this->getPost('user');
 	$pass = $this->getPost('pass');
         $this->set('title','Login:');
         $this->set('auth',$this->model->loginUser($user, $pass)); //this calls the model method
 
         //forward away, this prevents logging-in by click back and then reloading the login page (after a logout)
-        //header("Location: ../");
+//        header("Location: ../");
     }
 
     public function logout()
