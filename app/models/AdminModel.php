@@ -16,7 +16,7 @@ class AdminModel extends Model
     function __construct($config, RandomInterface $randomObj, AuthInterface $authObj, MsgInterface $msgObj, EnvironmentInterface $envObj)
     {
         //call the parent constructor
-	parent::__construct($config);
+	parent::__construct($config, $authObj);
 
         //inject objects
         $this->random = $randomObj;
@@ -24,6 +24,8 @@ class AdminModel extends Model
         $this->msg = $msgObj;
         $this->env = $envObj;
         $this->config = $config;
+
+        $this->usersTable = $this->config->get('usersTable');
 
         //set no caching
         //$this->env->setHeaders('noCache');
@@ -71,7 +73,8 @@ class AdminModel extends Model
         if (($this->userCheck($user)) && ($this->passCheck($pass))) {
 
             //set prepared statements
-            $sql = "SELECT password FROM $this->table where username=?";
+            //$sql = "SELECT password FROM $this->table where username=?";
+            $sql = "SELECT password FROM $this->usersTable where username=?";
             $params = array($user);
 
             //grab the hash from the user's row
@@ -123,7 +126,8 @@ class AdminModel extends Model
             if ($this->userCheck($user) && $this->passCheck($pass) && $this->passCheck($newpass) && $this->hash($newpass)) {
                
                 //set prepared statements
-                $sql = "UPDATE $this->table SET password=? WHERE username=?";
+                //$sql = "UPDATE $this->table SET password=? WHERE username=?";
+                $sql = "UPDATE $this->usersTable SET password=? WHERE username=?";
                 $params = array($this->hash, $user);
 
                 //query the database    
@@ -150,7 +154,9 @@ class AdminModel extends Model
             if ($this->hash($pass)) {
 
                 //set prepared statements
-                $sql = "INSERT INTO $this->table (username, password) VALUES (?, ?)";
+                //$sql = "INSERT INTO $this->table (username, password) VALUES (?, ?)";
+                $sql = "INSERT INTO $this->usersTable (username, password) VALUES (?, ?)";
+
                 $params = array($user, $this->hash);
 
                 //query the database    
@@ -176,18 +182,14 @@ class AdminModel extends Model
         return $this->msg->getMessage();
     }
 
-    public function logoutUser() {
-
-        //set username
-        isset($_SESSION['username']) ? $username = $_SESSION['username'] : $username = 'User';
-
-        //logout
-        if($this->auth->logout()) {
-            $this->msg->success("$username has been logged out.");
-        } else {
-            $this->msg->fail("$username has been logged out.");
+    public function test() {
+        if (isset($this->auth->username)) {
+            var_dump($this->auth->username);
         }
-        return $this->msg->getMessage();
+    }
+
+    public function logoutUser() {
+        $this->auth->logout();
     }
 }
 

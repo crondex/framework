@@ -1,11 +1,13 @@
 <?php
 
 define('DS', DIRECTORY_SEPARATOR); 
-define('ROOT', dirname(dirname(__FILE__)));
+define('ROOT', dirname(dirname(__FILE__)) . DS);
 
-require_once (ROOT . DS . 'app' . DS . 'config' . DS . 'env.php');
-require_once (ROOT . DS . 'vendor' . DS . 'autoload.php');
-require_once (ROOT . DS . 'vendor' . DS . 'crondex' . DS . src . DS . Bootstrap . DS . 'functions.php');
-require_once (ROOT . DS . 'vendor' . DS . 'crondex' . DS . src . DS . Bootstrap . DS . 'Bootstrap.php');
+require_once (ROOT . 'app' . DS . 'config' . DS . 'env.php');
+require_once (ROOT . 'vendor' . DS . 'autoload.php');
+require_once (ROOT . 'vendor' . DS . 'crondex' . DS . src . DS . Bootstrap . DS . 'Bootstrap.php');
 
-$app = new Crondex\Bootstrap;
+$configFilePath = ROOT . 'app' . DS . 'config' . DS . 'main.ini';
+$routesFilePath = ROOT . 'app' . DS . 'config' . DS . 'routes.ini';
+
+$app = new Crondex\Bootstrap($configFilePath, $routesFilePath);
