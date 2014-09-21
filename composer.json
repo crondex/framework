@@ -1,5 +1,5 @@
 {
-    "name": "crondex/crondex",
+    "name": "crondex/framework",
     "description": "Crondex Framework",
     "version": "0.0.1",
     "keywords": ["framework", "crondex"],
@@ -11,6 +11,15 @@
             "homepage": "http://www.andrewmclaughlin.com/"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@github.com:crondex/crondex.git"
+        }
+    ],
+    "require": {
+        "crondex/crondex": "0.0.1"
+    }
     "require": {
         "php": ">=5.4.0",
         "ircmaxell/password-compat": "1.0.3"
