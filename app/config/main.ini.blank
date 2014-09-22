@@ -14,7 +14,7 @@ pageCachingState = 'off'
 msg_debug = 'on'
 
 ;Cookie Settings
-cookie_domain = '.your-domain.com'
+cookie_domain = '.yourdomain.com'
 
 ;Auth Settings
 auth = 'on'
@@ -24,6 +24,6 @@ sessionIdColumn = 'session_id'
 tokenColumn = 'token'
 userIdColumn = 'user_id'
 
-adminTable = 'admin'
+usersTable = 'users'
 usernameColumn = 'username'
 
