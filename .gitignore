@@ -9,8 +9,8 @@
 app/config/*
 
 #except for these:
-!app/config/main.ini
-!app/config/routes.ini
+!app/config/main.ini.blank
+!app/config/routes.ini.blank
 !app/config/env.php
 
 #----------------------------------

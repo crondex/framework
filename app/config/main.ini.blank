@@ -1,0 +1,29 @@
+;Database settings
+db_type = 'mysql'
+db_host = ''
+db_name = ''
+db_username = ''
+db_password = ''
+
+;Environment
+displayErrors = 'on'
+errorLogPath = ROOT'tmp'DS'logs'DS'error.log'
+pageCachingState = 'off'
+
+;Debug messaging
+msg_debug = 'on'
+
+;Cookie Settings
+cookie_domain = '.your-domain.com'
+
+;Auth Settings
+auth = 'on'
+
+loggedInUsersTable = 'logged_in_users'
+sessionIdColumn = 'session_id'
+tokenColumn = 'token'
+userIdColumn = 'user_id'
+
+adminTable = 'admin'
+usernameColumn = 'username'
+
