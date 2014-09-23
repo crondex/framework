@@ -13,16 +13,22 @@
     ],
     "repositories": [
         {
-            "type": "vcs",
-            "url":  "git@github.com:crondex/crondex.git"
+            "type": "package",
+            "package": {
+                "name": "crondex/crondex",
+                "version": "0.0.1",
+                "source": {
+                    "type": "git",
+                    "url":  "https://github.com/crondex/crondex.git",
+                    "reference": "origin/master"
+                }
+            }
         }
     ],
     "require": {
-        "crondex/crondex": "0.0.1"
-    }
-    "require": {
         "php": ">=5.4.0",
-        "ircmaxell/password-compat": "1.0.3"
+        "ircmaxell/password-compat": "1.0.3",
+        "crondex/crondex": "0.0.1"
     },
     "require-dev": {
         "phpunit/phpunit": "4.0.*"
