@@ -37,14 +37,10 @@
         "classmap": [
             "app/controllers",
             "app/models",
-            "app/views",
-            "app/tests",
-            "app/storage/cache",
-            "app/storage/logs",
-            "app/storage/session"
+            "app/views"
         ],
         "psr-4": {
-            "Crondex\\": "vendor/crondex/src/"
+            "Crondex\\": "vendor/crondex/crondex/src/"
         }
     }
 }
