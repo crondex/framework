@@ -32,4 +32,7 @@ vendor/*
 
 tmp/
 *.DS_Store
+app/views/admin
+app/controllers/AdminController.php
+app/models/AdminModel.php
 

@@ -40,7 +40,8 @@
             "app/views"
         ],
         "psr-4": {
-            "Crondex\\": "vendor/crondex/crondex/src/"
+            "Crondex\\": "vendor/crondex/crondex/src/",
+            "CrondexAuth\\": "vendor/crondex/crondex-auth/src/"
         }
     }
 }
